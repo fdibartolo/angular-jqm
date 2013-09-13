@@ -78,7 +78,17 @@ jqmModule.factory('$loadDialog', ['$rootElement', '$rootScope', function ($rootE
             $rootElement.addClass(loadingClass);
         } else {
             $rootElement.removeClass(loadingClass);
+            if (modalBackroundExist()) { lastDivOfRootElement().remove(); }
         }
+    }
+
+    function lastDivOfRootElement() {
+        var divs = $rootElement.find('div');
+        return angular.element(divs[divs.length - 1]);
+    }
+
+    function modalBackroundExist() {
+        return lastDivOfRootElement().hasClass('ui-loader-background');
     }
 
     /**
@@ -111,6 +121,28 @@ jqmModule.factory('$loadDialog', ['$rootElement', '$rootScope', function ($rootE
 
         showCalls.push({msg: msg, callback: tapCallback});
         updateUI();
+    }
+
+    /**
+     * @ngdoc method
+     * @name jqm.$loadDialog#showModal
+     * @methodOf jqm.$loadDialog
+     *
+     * @description
+     * Opens the wait dialog in modal mode and shows the given message (if existing).
+     * If the user clicks on the wait dialog the given callback is called.
+     * This can be called even if the dialog is currently showing. It will
+     * then change the message and revert back to the last message when
+     * the hide function is called.
+     *
+     * @param {string=} message The message to be shown when the wait dialog is displayed.
+     * @param {function=} callback The Callback that is executed when the wait dialog is clicked.
+     *
+     */
+    function showModal() {
+        var backgroundElement = angular.element("<div class='ui-loader-background'></div>");
+        if (! modalBackroundExist()) { $rootElement.append(backgroundElement); }
+        show(arguments[0], arguments[1]);
     }
 
     /**
@@ -174,6 +206,7 @@ jqmModule.factory('$loadDialog', ['$rootElement', '$rootScope', function ($rootE
 
     return {
         show: show,
+        showModal: showModal,
         hide: hide,
         waitFor: waitFor,
         waitForWithCancel: waitForWithCancel

@@ -97,6 +97,42 @@ describe('$loadDialog', function () {
         });
     });
 
+    describe("showModal() and hide()", function () {
+        it("must add 'ui-loader-background' class", function () {
+            expect($rootElement.find('div').length).toBe(1);
+            
+            $loadDialog.showModal();
+            
+            expect($rootElement.find('div').length).toBe(2);
+            expect($rootElement.find('div').next().hasClass('ui-loader-background')).toBe(true);
+        });
+        it("must append one and only one element with 'ui-loader-background' class", function () {
+            expect($rootElement.find('div').length).toBe(1);
+            
+            $loadDialog.showModal();
+            
+            expect($rootElement.find('div').length).toBe(2);
+            expect($rootElement.find('div').next().hasClass('ui-loader-background')).toBe(true);
+            
+            $loadDialog.showModal();
+            
+            expect($rootElement.find('div').length).toBe(2);
+        });
+        it("must preserve message to be shown if set", function () {
+            $loadDialog.showModal('message');
+
+            expect($rootElement.find('h1').text()).toBe('message');
+        });
+        it("must remove background element", function () {
+            $loadDialog.showModal();
+            expect($rootElement.find('div').length).toBe(2);
+            expect($rootElement.find('div').next().hasClass('ui-loader-background')).toBe(true);
+            $loadDialog.hide();
+            expect($rootElement.find('div').length).toBe(1);
+            expect($rootElement.find('div').hasClass('ui-loader')).toBe(true);
+        });
+    });
+
     describe("waitFor", function () {
         it('should waitFor the end of promises with the given message', function () {
             var p = $q.defer();
