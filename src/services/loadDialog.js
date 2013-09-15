@@ -78,7 +78,7 @@ jqmModule.factory('$loadDialog', ['$rootElement', '$rootScope', function ($rootE
             $rootElement.addClass(loadingClass);
         } else {
             $rootElement.removeClass(loadingClass);
-            if (modalBackroundExist()) { lastDivOfRootElement().remove(); }
+            if (modalBackgroundExist()) { lastDivOfRootElement().remove(); }
         }
     }
 
@@ -87,7 +87,7 @@ jqmModule.factory('$loadDialog', ['$rootElement', '$rootScope', function ($rootE
         return angular.element(divs[divs.length - 1]);
     }
 
-    function modalBackroundExist() {
+    function modalBackgroundExist() {
         return lastDivOfRootElement().hasClass('ui-loader-background');
     }
 
@@ -141,7 +141,7 @@ jqmModule.factory('$loadDialog', ['$rootElement', '$rootScope', function ($rootE
      */
     function showModal() {
         var backgroundElement = angular.element("<div class='ui-loader-background'></div>");
-        if (! modalBackroundExist()) { $rootElement.append(backgroundElement); }
+        if (! modalBackgroundExist()) { $rootElement.append(backgroundElement); }
         show(arguments[0], arguments[1]);
     }
 
